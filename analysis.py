@@ -189,7 +189,7 @@ fig2 = px.bar(
     color="スタイリスト"
 )
 
-st.plotly_chart(fig2)
+st.plotly_chart(fig2,use_container_width=True)
 
 
 fig2 = px.bar(
@@ -202,7 +202,7 @@ fig2 = px.bar(
     title = "客数と客単価の関係" # ←2列表示
 )
 
-st.plotly_chart(fig2)
+st.plotly_chart(fig2,use_container_width=True)
 st.subheader("スタイリスト別の売上構造分析")
 
 fig3 = px.scatter( #合計売上が客数に起因してるのかどうかを調べる
@@ -230,7 +230,7 @@ fig5 = px.scatter(
     title = "客数・客単価・売上の関係"
     )
 
-st.plotly_chart(fig5)
+st.plotly_chart(fig5,use_container_width=True)
 
 fig6 = px.scatter(
     df,
@@ -241,7 +241,46 @@ fig6 = px.scatter(
     title = "指名率・客単価・売上の関係"
     )
 
-st.plotly_chart(fig6)
+st.plotly_chart(fig6,use_container_width=True)
+
+st.subheader("相関分析")
+
+corr = df[["客数", "客単価", "指名率"]].corr()
+
+fig_corr = px.imshow(
+    corr,
+    text_auto=True,
+    color_continuous_scale="Blues",
+    title="各指標の相関関係"
+)
+
+st.plotly_chart(fig_corr, use_container_width=True)
+
+if stylist == "全員":
+    st.markdown("### 🔍 サロン全体の相関関係における分析")
+    st.info("量（客数）では指名は増えにくい")
+    st.markdown("""
+    客数と指名率の相関が弱いことから、
+    単純な回転率の向上だけではリピーター獲得にはつながりにくいと考えられる。
+
+    そのため、リピーター増加には施術体験の質（技術・接客・提案力など）
+    の向上が重要である可能性が高い。
+    """)
+
+    st.caption("※客数・客単価・指名率の分布から分析")
+
+if stylist == "末松":
+    st.markdown("### 🔍 末松の分析")
+    st.info("客数の増加に伴い指名率が低下")
+    st.markdown("""
+    客数の増加に伴い指名率が低下していることから、
+    回転率重視の運用はリピーター獲得の観点で非効率となる可能性がある。
+
+    このため、短期的な売上は維持できる一方で、
+    長期的な顧客基盤の成長は鈍化するリスクがあると考えられる。
+    """)
+    st.caption("※客数・客単価・指名率の分布から分析")
+
 
 
 
