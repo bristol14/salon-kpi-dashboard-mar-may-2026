@@ -7,10 +7,9 @@ import sqlite3
 st.write(os.path.abspath(__file__))
 df = pd.read_excel("salon_3months_data.xlsx")
 
-st.write(df["合計売上"].dtype)  # ← ここ
-# ======================
-# データ読み込み & 日付修正（ここ重要）
-# ======================
+st.write(df["合計売上"].dtype)  
+
+# データ読み込み & 日付修正
 
 df["日付"] = pd.to_datetime(df["日付"])
 df["日付"] = df["日付"].dt.strftime("%Y-%m-%d")
