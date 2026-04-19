@@ -48,10 +48,8 @@ with col4:
 conn = sqlite3.connect("sales.DB")
 df.to_sql("sales", conn, if_exists="replace", index=False)
 
-
-# ======================
 # 月別売上
-# ======================
+
 monthly_sales_df = pd.read_sql("""
 SELECT 
  スタイリスト,
@@ -72,9 +70,8 @@ fig7 = px.bar(
     )
 st.plotly_chart(fig7)
 
-# ======================
 # 月別スタイリスト売上
-# ======================
+
 monthly_sales_by_stylist = pd.read_sql("""
 SELECT
  substr(日付,1,7) AS 月,
@@ -106,9 +103,8 @@ fig.update_layout(
 
 st.plotly_chart(fig)
 
-# ======================
 # 技術売上
-# ======================
+
 monthly_technical_sales = pd.read_sql("""
 SELECT
  substr(日付,1,7) AS 月,
@@ -139,9 +135,8 @@ fig1.update_layout(
 
 st.plotly_chart(fig1)
 
-# ======================
 # 曜日別売上（ここが今回の修正ポイント）
-# ======================
+
 weekday_sales_by_stylist = pd.read_sql("""
 SELECT
  CASE strftime('%w', date(日付)) 
