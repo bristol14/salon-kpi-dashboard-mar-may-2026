@@ -9,7 +9,6 @@ df = pd.read_excel("salon_3months_data.xlsx")
 
 st.write(df["合計売上"].dtype)  
 
-# データ読み込み & 日付修正
 
 df["日付"] = pd.to_datetime(df["日付"])
 df["日付"] = df["日付"].dt.strftime("%Y-%m-%d")
@@ -42,13 +41,11 @@ with col3:
 with col4:
     st.metric("1時間あたりの生産性",f"{Productivity:,.0f}円")
 
-# ======================
 # DB接続
-# ======================
+
 conn = sqlite3.connect("sales.DB")
 df.to_sql("sales", conn, if_exists="replace", index=False)
 
-# 月別売上
 
 monthly_sales_df = pd.read_sql("""
 SELECT 
@@ -135,7 +132,7 @@ fig1.update_layout(
 
 st.plotly_chart(fig1)
 
-# 曜日別売上（ここが今回の修正ポイント）
+# 曜日別売上
 
 weekday_sales_by_stylist = pd.read_sql("""
 SELECT
@@ -157,7 +154,8 @@ ORDER BY strftime('%w', date(日付)), スタイリスト
 
 st.subheader("(曜日別)スタイリスト売上合計")
 
-# 曜日順を固定（重要）
+# 曜日順を固定
+
 order = ["月","火","水","木","金","土","日"]
 weekday_sales_by_stylist["曜日"] = pd.Categorical(weekday_sales_by_stylist["曜日"], categories=order, ordered=True)
 weekday_sales_by_stylist = weekday_sales_by_stylist.sort_values("曜日")
@@ -179,7 +177,7 @@ fig2 = px.bar(
     color="スタイリスト",
     facet_col="スタイリスト",  # スタイリスト毎に表示する
     facet_col_wrap=2,
-    title = "客数と客単価の関係" # ←2列表示
+    title = "客数と客単価の関係" 
 )
 
 st.plotly_chart(fig2,use_container_width=True)
@@ -261,5 +259,5 @@ if stylist == "末松":
     """)
     st.caption("※客数・客単価・指名率の分布から分析")
 
-# DB閉じる
+
 conn.close()
