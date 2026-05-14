@@ -4,7 +4,7 @@ import plotly.express as px
 import os
 import sqlite3
 
-st.write(os.path.abspath(__file__))
+
 df = pd.read_excel("salon_3months_data.xlsx")
 
 st.write(df["合計売上"].dtype)  
