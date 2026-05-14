@@ -13,6 +13,9 @@ st.write(df["合計売上"].dtype)
 df["日付"] = pd.to_datetime(df["日付"])
 df["日付"] = df["日付"].dt.strftime("%Y-%m-%d")
 
+
+st.title("美容室の売上・客数・生産性を可視化するKPIダッシュボード（2026年3〜5月）")
+
 stylist = st.selectbox("スタイリストを選択",["全員"] + list(df["スタイリスト"].unique()))
 
 if stylist != "全員":
